@@ -1,15 +1,13 @@
 # -*- coding: utf-8 -*-
 {
-    'name': "Name Module",
-    'summary': """summary""",
-    'description': """description""",
+    'name': "odoo-bot-adapter",
+    'summary': """Adapter for bot handler""",
+    'description': """adapte4r for bot handler""",
     'author': "Paimon",
     'category': 'Manga',
-    'version': '0.1',
+    'version': '15.0.0',
     'depends': ['base'],
     'data': [
-        # 'security/ir.model.access.csv',
-        'views/views.xml',
-        'views/templates.xml',
+        # 'security/ir.model.access.csv'
     ],
 }
