@@ -1,3 +1,4 @@
 # -*- coding: utf-8 -*-
 
-from . import models
+from . import bot_event
+from . import bot_command
