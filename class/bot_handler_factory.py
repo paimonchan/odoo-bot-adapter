@@ -1,5 +1,6 @@
 from ..helpers import consts
 from .bot_handler_abstract import BotHandlerAbstract
+from .bot_telegram import BotTelegram
 from .bot_slack import BotSlack
 
 class BotHandlerFactory(BotHandlerAbstract):
@@ -11,7 +12,8 @@ class BotHandlerFactory(BotHandlerAbstract):
     def __init__(self):
         self.handlers = {
             # TODO add type bot (ie slack, telegrams, discord etc)
-            consts.BOT_SLACK: BotSlack()
+            consts.BOT_SLACK        : BotSlack(),
+            consts.BOT_TELEGRAM     : BotTelegram(),
         }
     
     def response_handler(self, bot_event, message):
