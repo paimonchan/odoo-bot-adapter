@@ -17,8 +17,8 @@ class BotHandlerFactory(BotHandlerAbstract):
         }
     
     def response_handler(self, bot_event, message):
-        bot_type = False  # TODO: add field bot type in command
-        handler = self.handlersl.get(bot_type)
+        bot_type = bot_event.bot_type
+        handler = self.handlers.get(bot_type)
         if not handler:
             message = 'Not found handler for bot type: {}'.format(bot_type)
             raise Exception(message)
