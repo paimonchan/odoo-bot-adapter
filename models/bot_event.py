@@ -1,6 +1,10 @@
 from odoo import models, fields
 from ..helpers import consts
 
+STATES_READONLY = {
+    consts.EVENT_STATE_DONE: [('readonly', True)]
+}
+
 class BotEvent(models.Model):
     _name = 'paimon.bot.event'
 
@@ -25,3 +29,5 @@ class BotEvent(models.Model):
     text = fields.Char(
         states=STATES_READONLY,
         help='text after command text')
+    state = fields.Selection(
+        consts.EVENT_STATE_SELECTION, required=True)
