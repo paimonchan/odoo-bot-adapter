@@ -1,0 +1,11 @@
+<odoo>
+    <record model="ir.ui.view" id="paimon.bot.event">
+        <field name="name">Bot Event</field>
+        <field name="model">paimon.bot.event</field>
+        <field name="arch" type="xml">
+            <form>
+                <field name="name"/>
+            </form>
+        </field>
+    </record>
+</odoo>
