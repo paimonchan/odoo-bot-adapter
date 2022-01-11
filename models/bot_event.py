@@ -1,4 +1,5 @@
 from odoo import models, fields
+from datetime import datetime
 from ..helpers import consts
 
 STATES_READONLY = {
@@ -8,7 +9,6 @@ STATES_READONLY = {
 class BotEvent(models.Model):
     _name = 'paimon.bot.event'
 
-    bot_type = fields.Selection(consts.BOT_TYPES)
     command_id = fields.Many2one(
         'fore.bot.command', readonly=True)
     channel_id = fields.Char(
@@ -25,9 +25,15 @@ class BotEvent(models.Model):
         help='user name from 3rd party')
     command = fields.Char(
         states=STATES_READONLY,
-        help='command text that send from channel message')
-    text = fields.Char(
+        help='command that send from channel message')
+    payload = fields.Char(
         states=STATES_READONLY,
-        help='text after command text')
+        help='text/payload after command')
+    date = fields.Datetime(
+        copy=False, readonly=True,
+        default=datetime.today())
     state = fields.Selection(
         consts.EVENT_STATE_SELECTION, required=True)
+    error = fields.Char(
+        copy=False, readonly=True,
+        help='store error message when bot event failed to run')
