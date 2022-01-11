@@ -37,3 +37,20 @@ class BotEvent(models.Model):
     error = fields.Char(
         copy=False, readonly=True,
         help='store error message when bot event failed to run')
+
+    def _get_command_id(self):
+        self.ensure_one()
+        command = self.env['paimon.bot.command'].search([
+            ('channel_id', '=', self.channel),
+            ('command', '=', self.command)
+        ])
+        return command.id
+
+    def assign_command(self):
+        for record in self:
+            if record.command_id: continue
+            record.command_id = record._get_command_id()
+
+    def force_assign_command(self):
+        for record in self:
+            record.command_id = record._get_command_id()
