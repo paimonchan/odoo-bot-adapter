@@ -54,3 +54,6 @@ class BotEvent(models.Model):
     def force_assign_command(self):
         for record in self:
             record.command_id = record._get_command_id()
+
+    def process(self):
+        pass
