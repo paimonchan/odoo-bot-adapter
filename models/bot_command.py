@@ -1,9 +1,13 @@
+import code
+from unicodedata import name
 from odoo import models, fields
 from ..helpers import consts
 
+PREFIX_NAME = 'COMMAND/'
 class BotCommand(models.Model):
     _name = 'paimon.bot.command'
 
+    name = fields.Char(copy=False, readonly=True)
     bot_type = fields.Selection(consts.BOT_TYPES)
     # not using relation from ir.model
     # because for easy create entry from xml (hard to connect existing entry relation into xml)
@@ -34,3 +38,20 @@ class BotCommand(models.Model):
             when no model_name is filled, then default message will be 
             used as return message that will post to 3rd party platform.
         """)
+
+    def _get_sequence(self):
+        sequence_model = self.env['ir.sequence'].sudo()
+        sequence = sequence_model.search([('code', '=', self._name)], limit=1)
+        if not sequence:
+            sequence = sequence_model.create(dict(
+                prefix      = PREFIX_NAME,
+                name        = self._name,
+                code        = self._name,
+                paddings    = 3
+            ))
+        return sequence._next()
+    
+    def create(self, vals):
+        if not vals.get('name'):
+            vals['name'] = self._get_sequence()
+        return super().create(vals)
