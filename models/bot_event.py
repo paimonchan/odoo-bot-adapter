@@ -55,5 +55,11 @@ class BotEvent(models.Model):
         for record in self:
             record.command_id = record._get_command_id()
 
-    def process(self):
+    def run(self):
+        for event in self:
+            if event.state != 'draft':
+                continue
+            event.process_command_function()
+    
+    def process_command_function(self):
         pass
