@@ -1,6 +1,6 @@
 import code
 from unicodedata import name
-from odoo import models, fields
+from odoo import models, fields, api
 from ..helpers import consts
 
 PREFIX_NAME = 'COMMAND/'
@@ -51,6 +51,7 @@ class BotCommand(models.Model):
             ))
         return sequence._next()
     
+    @api.model
     def create(self, vals):
         if not vals.get('name'):
             vals['name'] = self._get_sequence()
