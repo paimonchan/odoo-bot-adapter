@@ -1,4 +1,4 @@
-from odoo import models, fields
+from odoo import models, fields, api
 from datetime import datetime
 from ..helpers import consts
 
@@ -63,3 +63,9 @@ class BotEvent(models.Model):
     
     def process_command_function(self):
         pass
+
+    @api.model
+    def create(self, vals):
+        res = super().create(vals)
+        res.assign_command()
+        return res
