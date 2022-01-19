@@ -63,7 +63,25 @@ class BotEvent(models.Model):
             event.process_command_function()
     
     def process_command_function(self):
-        pass
+        if not self.command_id:
+            return
+        command_id = self.command_id
+        model_name = command_id.model
+        method_name = command_id.method
+        default_message = command_id.default_message
+        model = self.env['ir.model'].search([('model', '=', model_name)])
+
+        # check if model is exist
+        if not model:
+            message = 'Model not found: {}'.format(model_name)
+            # TODO: add log error here
+
+        # if not callable function and not default message is defined, mark as error and skip
+        if not model_name and not method_name and not default_message:
+            message = 'model_id, model_name and default_message is not defined.'
+            # TODO: add log error here
+            return
+        
 
     @api.model
     def create(self, vals):
