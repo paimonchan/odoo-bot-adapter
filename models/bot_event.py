@@ -57,8 +57,9 @@ class BotEvent(models.Model):
 
     def run(self):
         for event in self:
-            if event.state != 'draft':
+            if event.state != consts.EVENT_STATE_DRAFT:
                 continue
+            event.assign_command()
             event.process_command_function()
     
     def process_command_function(self):
