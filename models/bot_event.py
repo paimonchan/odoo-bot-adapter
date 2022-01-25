@@ -1,6 +1,10 @@
+import logging
 from odoo import models, fields, api
+from odoo.exceptions import UserError
 from datetime import datetime
 from ..helpers import consts
+
+_logger = logging.getLogger(__name__)
 
 STATES_READONLY = {
     consts.EVENT_STATE_DONE: [('readonly', True)]
@@ -74,13 +78,14 @@ class BotEvent(models.Model):
         # check if model is exist
         if not model:
             message = 'Model not found: {}'.format(model_name)
-            # TODO: add log error here
+            _logger.warning(message)
+            raise UserError(message)
 
         # if not callable function and not default message is defined, mark as error and skip
         if not model_name and not method_name and not default_message:
             message = 'model_id, model_name and default_message is not defined.'
-            # TODO: add log error here
-            return
+            _logger.warning(message)
+            raise UserError(message)
         
 
     @api.model
